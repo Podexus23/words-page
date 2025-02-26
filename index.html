@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+      итак, блок внутри, три вкладки между которыми можно переключаться 
+    -->
+    <div id="root" class="root flex-col-mid">
+      <main class="words-main_wrapper flex-col-mid">
+        <nav class="words-navigation flex-row-mid">
+          <div class="navigation_block active" data-nav="all">All Words</div>
+          <div class="navigation_block" data-nav="add">Add Word</div>
+          <div class="navigation_block" data-nav="quiz">Quiz</div>
+        </nav>
+        <section class="flex-col-mid words-open words-all-words_block">
+          <div>word - слово</div>
+          <div>word - слово</div>
+          <div>word - слово</div>
+          <div>word - слово</div>
+          <div>word - слово</div>
+          <div>word - слово</div>
+          <div>word - слово</div>
+        </section>
+        <section class="flex-col-mid words-open words-add-word_block">
+          <form method="post" action="/api/word">
+            <div class="form-word_input">
+              <label for="en_word">Введите слово на английском</label>
+              <input type="text" name="en_word" id="en_word" />
+            </div>
+            <div class="form-word_input">
+              <label for="ru_word">Введите слово на русском</label>
+              <input type="text" name="ru_word" id="ru_word" />
+            </div>
+          </form>
+          <button class="btn add-word_btn">Submit</button>
+        </section>
+        <section class="flex-col-mid words-open words-quiz_block">
+          <div class="form-word_input">
+            <label for="ru_word">Word</label>
+            <input type="text" name="ru_word" id="ru_word" />
+            <button class="btn">☑️</button>
+          </div>
+          <div class="form-word_input">
+            <label for="ru_word">Word</label>
+            <input type="text" name="ru_word" id="ru_word" />
+            <button class="btn">☑️</button>
+          </div>
+          <div class="form-word_input">
+            <label for="ru_word">Word</label>
+            <input type="text" name="ru_word" id="ru_word" />
+            <button class="btn">☑️</button>
+          </div>
+          <div class="form-word_input">
+            <label for="ru_word">Word</label>
+            <input type="text" name="ru_word" id="ru_word" />
+            <button class="btn">☑️</button>
+          </div>
+          <div class="form-word_input">
+            <label for="ru_word">Word</label>
+            <input type="text" name="ru_word" id="ru_word" />
+            <button class="btn">☑️</button>
+          </div>
+          <div class="quiz-resilt">Result 0/5</div>
+          <button class="btn quiz-restart_btn">Restart</button>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
