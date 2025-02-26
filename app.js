@@ -4,7 +4,7 @@ let WORDS = {
   castle: { en: "castle", ru: "замок" },
 };
 let quizWords;
-const url = "http://127.0.0.1:3000";
+const url = "https://render-test-xooq.onrender.com";
 const resultState = {
   current: 0,
   madeMoves: 0,
