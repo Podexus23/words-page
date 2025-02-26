@@ -3,11 +3,12 @@ const root = document.querySelector("#root");
 let WORDS = {
   castle: { en: "castle", ru: "замок" },
 };
+const url = "http://127.0.0.1:3000";
 
 //view
 function renderAddWordBlock() {
   return `<section class="flex-col-mid words-open words-add-word_block">
-          <form method="post" action="/api/word">
+          <form method="post" action="/api/word" class="flex-col-mid">
             <div class="form-word_input">
               <label for="en_word">Введите слово на английском</label>
               <input type="text" name="en_word" id="en_word" />
@@ -16,8 +17,8 @@ function renderAddWordBlock() {
               <label for="ru_word">Введите слово на русском</label>
               <input type="text" name="ru_word" id="ru_word" />
             </div>
+            <button class="btn add-word_btn">Submit</button>
           </form>
-          <button class="btn add-word_btn">Submit</button>
         </section>`;
 }
 
@@ -110,22 +111,49 @@ function changeOpenBlock(blockName) {
 
 //controller
 
-function mainController() {
-  const nav = root.querySelector(".words-navigation");
-  nav.addEventListener("click", (e) => {
-    if (e.target.classList.contains("navigation_block")) {
-      const navBlock = e.target.dataset.nav;
+async function handleSubmitNewWord(e) {
+  e.preventDefault();
+  const form = e.target;
+
+  const formData = new FormData(form);
+  const wordToSend = JSON.stringify(
+    Object.fromEntries(Array.from(formData.entries()))
+  );
+  console.log(wordToSend);
+  await fetch(`${url}/api/word`, { method: "post", body: wordToSend });
+  form.reset();
+}
+
+async function handleNavActiveBlock(e) {
+  if (e.target.classList.contains("navigation_block")) {
+    const navBlock = e.target.dataset.nav;
+    if (navBlock === "all") {
+      const data = await fetch(`${url}/api/all`, { method: "get" });
+      WORDS = (await data.json()).data;
       changeOpenBlock(navBlock);
     }
-  });
+    if (navBlock === "add") {
+      changeOpenBlock(navBlock);
+      const form = root.querySelector(".words-open form");
+      form.addEventListener("submit", handleSubmitNewWord);
+    }
+    if (navBlock === "quiz") {
+      changeOpenBlock(navBlock);
+    }
+  }
+}
+
+function mainController() {
+  const nav = root.querySelector(".words-navigation");
+  nav.addEventListener("click", handleNavActiveBlock);
 }
 
 async function main() {
   renderMain();
   mainController();
-  const url = "http://127.0.0.1:3000";
-  const data = await fetch(`${url}/api/all`, { method: "get" });
-  WORDS = (await data.json()).data;
+
+  const form = root.querySelector(".words-open form");
+  form.addEventListener("submit", handleSubmitNewWord);
 }
 
 main();
