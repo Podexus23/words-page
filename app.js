@@ -1,5 +1,8 @@
 const root = document.querySelector("#root");
-console.log(root);
+
+let WORDS = {
+  castle: { en: "castle", ru: "замок" },
+};
 
 //view
 function renderAddWordBlock() {
@@ -19,14 +22,12 @@ function renderAddWordBlock() {
 }
 
 function renderAllWordsBlock() {
-  return `        <section class="flex-col-mid words-open words-all-words_block">
-          <div>word - слово</div>
-          <div>word - слово</div>
-          <div>word - слово</div>
-          <div>word - слово</div>
-          <div>word - слово</div>
-          <div>word - слово</div>
-          <div>word - слово</div>
+  console.log(Object.keys(WORDS));
+  const wordsBlocks = Object.keys(WORDS)
+    .map((word) => `<div>${WORDS[word].en} - ${WORDS[word].ru}</div>`)
+    .join("");
+  return `<section class="flex-col-mid words-open words-all-words_block">
+${wordsBlocks}
         </section>`;
 }
 
@@ -112,18 +113,19 @@ function changeOpenBlock(blockName) {
 function mainController() {
   const nav = root.querySelector(".words-navigation");
   nav.addEventListener("click", (e) => {
-    console.dir(e.target);
     if (e.target.classList.contains("navigation_block")) {
       const navBlock = e.target.dataset.nav;
-
       changeOpenBlock(navBlock);
     }
   });
 }
 
-function main() {
+async function main() {
   renderMain();
   mainController();
+  const url = "http://127.0.0.1:3000";
+  const data = await fetch(`${url}/api/all`, { method: "get" });
+  WORDS = (await data.json()).data;
 }
 
 main();
