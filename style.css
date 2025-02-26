@@ -39,6 +39,10 @@
   background-color: rgb(255, 228, 166);
 }
 
+.words-open-wrapper {
+  width: 100%;
+}
+
 .words-open {
   background-color: chocolate;
   padding: 0.3rem;
